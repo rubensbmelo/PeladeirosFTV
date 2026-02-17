@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="Peladeiros.jpeg" width="150px" alt="Logo Peladeiros">
+  <img src="./img/Peladeiros.jpeg" width="150px" alt="Logo Peladeiros">
   
   <h1>⚽ Peladeiros</h1>
 
@@ -12,8 +12,10 @@
 
   <p><strong>Gestão visual e organização para a pelada da galera.</strong></p>
 
-  <a href="https://rubensbmelo.github.io/PeladeirosFTV/">
-    <h3>🔗 Clique aqui para ver o projeto online</h3>
+  <br>
+
+  <a href="https://rubensbmelo.github.io/PeladeirosFTV/" target="_blank">
+    <strong>🔗 Clique aqui para ver o projeto online</strong>
   </a>
 </div>
 
