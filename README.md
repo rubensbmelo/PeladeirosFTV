@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="Peladeiros.jpeg" width="150px" alt="Logo Peladeiros">
+  <img src="./img/Peladeiros.jpeg" width="150px" alt="Logo Peladeiros">
   
   <h1>⚽ Peladeiros</h1>
 
