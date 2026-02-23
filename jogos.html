@@ -10,45 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <title>Placares - Peladeiros de Futevôlei</title>
-    <style>
-        /* Estilo específico para organizar os placares em colunas */
-        .grid-placares {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .card-jogo {
-            display: flex;
-            align-items: center;
-            background: #fff;
-            padding: 12px;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            font-size: 13px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-        }
-
-        .placar-box {
-            margin: 0 10px;
-            background: #000;
-            color: #ffca28;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-weight: 900;
-            min-width: 60px;
-            text-align: center;
-        }
-
-        .time {
-            flex: 1;
-            font-weight: 700;
-        }
-
-        .time-dir { text-align: right; }
-        .time-esq { text-align: left; }
-    </style>
 </head>
 
 <body>
@@ -69,82 +30,12 @@
         <img src="./img/peladeiros.png" alt="Logo Peladeiros" class="logo-flutuante">
 
         <h1 class="titulo-principal">Rodada Completa</h1>
-        <p class="intro">Resultados oficiais do dia 15/02/2026</p>
+        <p class="intro">Resultados atualizados em tempo real</p>
 
-        <section id="lista-jogos">
-            <h2>Todos os Jogos</h2>
-            
-            <div class="grid-placares">
-                <div class="card-jogo">
-                    <div class="time time-dir">Paulo / Julio</div>
-                    <div class="placar-box">15 x 11</div>
-                    <div class="time time-esq">Tarciso / Capoeira</div>
-                </div>
-
-                <div class="card-jogo">
-                    <div class="time time-dir">Julio / Álvaro</div>
-                    <div class="placar-box">11 x 15</div>
-                    <div class="time time-esq">Tarciso / Diniz</div>
-                </div>
-
-                <div class="card-jogo">
-                    <div class="time time-dir">Tarciso / Diniz</div>
-                    <div class="placar-box">15 x 13</div>
-                    <div class="time time-esq">João / Fabinho</div>
-                </div>
-
-                <div class="card-jogo">
-                    <div class="time time-dir">Tarciso / Diniz</div>
-                    <div class="placar-box">15 x 8</div>
-                    <div class="time time-esq">Paulinho / Capoeira</div>
-                </div>
-
-                <div class="card-jogo">
-                    <div class="time time-dir">João / Fabinho</div>
-                    <div class="placar-box">15 x 13</div>
-                    <div class="time time-esq">Julio / Álvaro</div>
-                </div>
-
-                <div class="card-jogo">
-                    <div class="time time-dir">João / Fabinho</div>
-                    <div class="placar-box">6 x 15</div>
-                    <div class="time time-esq">Tarciso / Diniz</div>
-                </div>
-
-                <div class="card-jogo">
-                    <div class="time time-dir">Júlio / Capoeira</div>
-                    <div class="placar-box">21 x 19</div>
-                    <div class="time time-esq">Tarciso / Diniz</div>
-                </div>
-
-                <div class="card-jogo">
-                    <div class="time time-dir">Paulo / Ricardo</div>
-                    <div class="placar-box">16 x 18</div>
-                    <div class="time time-esq">Julio / Capoeira</div>
-                </div>
-
-                <div class="card-jogo">
-                    <div class="time time-dir">Julio / Thiago</div>
-                    <div class="placar-box">15 x 9</div>
-                    <div class="time time-esq">João Coxinha</div>
-                </div>
-
-                <div class="card-jogo">
-                    <div class="time time-dir">Paulinho / Coxinha</div>
-                    <div class="placar-box">15 x 9</div>
-                    <div class="time time-esq">Tarciso / Dom</div>
-                </div>
-
-                <div class="card-jogo">
-                    <div class="time time-dir">Paulo / Diniz</div>
-                    <div class="placar-box">15 x 7</div>
-                    <div class="time time-esq">Tarciso / Capoeira</div>
-                </div>
-            </div>
-        </section>
+        <div id="container-dinamico-jogos"></div>
 
         <div style="text-align: center; margin-top: 40px;">
-            <a href="index.html" class="btn-local" style="background-color: #333;">Voltar para o Início</a>
+            <a href="index.html" class="btn-local">Voltar para o Início</a>
         </div>
     </main>
 
@@ -159,5 +50,38 @@
         </div>
         <p>&copy; 2026 Peladeiros de Futevôlei</p>
     </footer>
+
+    <script src="dados_jogos.js"></script>
+    <script>
+        // Função que desenha os jogos na tela
+        const areaDeJogos = document.getElementById('container-dinamico-jogos');
+
+        bancoDeDadosJogos.forEach(rodada => {
+            // Cria o HTML dos cards de cada jogo
+            const cardsHTML = rodada.jogos.map(jogo => `
+                <div class="card-jogo">
+                    <div class="time time-dir">${jogo.t1}</div>
+                    <div class="placar-box">${jogo.p}</div>
+                    <div class="time time-esq">${jogo.t2}</div>
+                </div>
+            `).join('');
+
+            if (rodada.atual) {
+                // Se for a rodada atual, mostra o título e o grid aberto
+                areaDeJogos.innerHTML += `
+                    <h2 class="data-titulo">Rodada de Hoje - ${rodada.data}</h2>
+                    <div class="grid-placares">${cardsHTML}</div>
+                `;
+            } else {
+                // Se for antiga, coloca automaticamente dentro do "Ver Rodada Anterior"
+                areaDeJogos.innerHTML += `
+                    <details>
+                        <summary>Ver Rodada Anterior - ${rodada.data}</summary>
+                        <div class="grid-placares">${cardsHTML}</div>
+                    </details>
+                `;
+            }
+        });
+    </script>
 </body>
 </html>
