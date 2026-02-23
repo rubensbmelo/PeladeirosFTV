@@ -31,7 +31,7 @@ const bancoDeDadosJogos = [
             { t1: "João / Fabinho", p: "6 x 15", t2: "Tarciso / Diniz" },
             { t1: "Júlio / Capoeira", p: "21 x 19", t2: "Tarciso / Diniz" },
             { t1: "Paulo / Ricardo", p: "16 x 18", t2: "Julio / Capoeira" },
-            { t1: "Julio / Thiago", p: "15 x 9", t2: "João Coxinha" },
+            { t1: "Julio / Thiago", p: "15 x 9", t2: "João / Coxinha" },
             { t1: "Paulinho / Coxinha", p: "15 x 9", t2: "Tarciso / Dom" },
             { t1: "Paulo / Diniz", p: "15 x 7", t2: "Tarciso / Capoeira" }
         ]

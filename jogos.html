@@ -10,6 +10,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <title>Placares - Peladeiros de Futevôlei</title>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G98PRRLH9V"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-G98PRRLH9V');
+    </script>
 </head>
 
 <body>
@@ -31,6 +39,9 @@
 
         <h1 class="titulo-principal">Histórico de Jogos</h1>
         <p class="intro">Confira os resultados das últimas rodadas da nossa pelada.</p>
+
+        <div id="filtros-jogos" class="ranking-controls">
+            </div>
 
         <section id="lista-rodadas">
             </section>
@@ -54,27 +65,56 @@
 
     <script src="dados_jogos.js"></script>
     <script>
-        function renderizarTodosJogos() {
-            const container = document.getElementById('lista-rodadas');
-            
-            // Gerar o HTML de cada rodada presente no seu dados_jogos.js
-            container.innerHTML = bancoDeDadosJogos.map((rodada, index) => `
-                <div class="rodada-bloco" style="margin-bottom: 50px;">
-                    <h2 class="data-titulo">${rodada.data}</h2>
-                    <div class="grid-placares">
-                        ${rodada.jogos.map(jogo => `
-                            <div class="card-jogo">
-                                <div class="time time-dir">${jogo.t1}</div>
-                                <div class="placar-box">${jogo.p}</div>
-                                <div class="time time-esq">${jogo.t2}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `).join('');
+        // Função para filtrar as rodadas
+        function filtrarRodadas(dataSelecionada, elementoBotao) {
+            // Ajusta os botões ativos
+            const botoes = document.querySelectorAll('.btn-filtro');
+            botoes.forEach(btn => btn.classList.remove('ativo'));
+            elementoBotao.classList.add('ativo');
+
+            const blocos = document.querySelectorAll('.rodada-bloco');
+            blocos.forEach(bloco => {
+                if (dataSelecionada === 'todas' || bloco.getAttribute('data-data') === dataSelecionada) {
+                    bloco.style.display = 'block';
+                } else {
+                    bloco.style.display = 'none';
+                }
+            });
         }
 
-        window.onload = renderizarTodosJogos;
+        function renderizarPaginaJogos() {
+            const containerJogos = document.getElementById('lista-rodadas');
+            const containerFiltros = document.getElementById('filtros-jogos');
+            
+            // 1. Criar Botão "Todas"
+            let htmlBotoes = `<button class="btn-filtro ativo" onclick="filtrarRodadas('todas', this)">Todas</button>`;
+
+            // 2. Renderizar os Jogos e pegar as datas para os botões
+            containerJogos.innerHTML = bancoDeDadosJogos.map((rodada) => {
+                // Adiciona botão para cada data
+                htmlBotoes += `<button class="btn-filtro" onclick="filtrarRodadas('${rodada.data}', this)">${rodada.data}</button>`;
+
+                return `
+                    <div class="rodada-bloco" data-data="${rodada.data}" style="margin-bottom: 50px;">
+                        <h2 class="data-titulo">${rodada.data}</h2>
+                        <div class="grid-placares">
+                            ${rodada.jogos.map(jogo => `
+                                <div class="card-jogo">
+                                    <div class="time time-dir">${jogo.t1}</div>
+                                    <div class="placar-box">${jogo.p}</div>
+                                    <div class="time time-esq">${jogo.t2}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Injeta os botões gerados
+            containerFiltros.innerHTML = htmlBotoes;
+        }
+
+        window.onload = renderizarPaginaJogos;
     </script>
 </body>
 </html>

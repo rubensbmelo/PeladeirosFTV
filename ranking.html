@@ -10,6 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <title>Ranking Completo - Peladeiros de Futevôlei</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G98PRRLH9V"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-G98PRRLH9V');
+    </script>
 </head>
 
 <body>
@@ -104,7 +111,7 @@
 
             // 3. Gerar as linhas com lógica de posição empatada
             let posicaoExibida = 1;
-            
+
             corpo.innerHTML = rankingOrdenado.map((atleta, index) => {
                 // Se não for o primeiro e a pontuação for menor que o anterior, 
                 // a posição pula para o número do índice + 1
@@ -129,4 +136,5 @@
         window.onload = () => mudarRanking('total');
     </script>
 </body>
+
 </html>
