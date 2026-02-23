@@ -1,48 +1,55 @@
 <div align="center">
-  <img src="./img/Peladeiros.jpeg" width="150px" alt="Logo Peladeiros">
+  <img src="./img/Peladeiros.jpeg" width="150px" alt="Logo Peladeiros" style="border-radius: 50%">
   
-  <h1>⚽ Peladeiros</h1>
+  <h1>⚽ Peladeiros de Futevôlei</h1>
 
   <p>
     <img src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5">
     <img src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3">
-    <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License MIT">
-    <img src="https://img.shields.io/badge/made%20by-Rubens-green" alt="Made by Rubens">
+    <img src="https://img.shields.io/badge/javascript-%23F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript">
+    <img src="https://img.shields.io/badge/google%20analytics-E37400?style=for-the-badge&logo=google%20analytics&logoColor=white" alt="Google Analytics">
   </p>
 
-  <p><strong>Gestão visual e organização para a pelada da galera.</strong></p>
+  <p><strong>Gestão automatizada e análise de dados para a pelada oficial de Futevôlei.</strong></p>
 
   <br>
 
   <a href="https://rubensbmelo.github.io/PeladeirosFTV/" target="_blank">
-    <strong>🔗 Clique aqui para ver o projeto online</strong>
+    <strong>🔗 CLIQUE AQUI PARA VER O PROJETO ONLINE</strong>
   </a>
 </div>
 
 <br>
 
 ## 📋 Sobre o Projeto
-Este projeto nasceu da necessidade de organizar o ranking dos atletas de forma clara e acessível. Atualmente, o foco é a **experiência do usuário no celular**, garantindo que as tabelas de pontos sejam fáceis de ler em qualquer lugar.
+Este projeto evoluiu de uma tabela estática para uma **plataforma dinâmica** de gestão de atletas. O foco é fornecer transparência e engajamento para os jogadores, com um sistema que gera rankings e históricos de partidas de forma automática através de arquivos de dados (JSON/JS).
 
-## 🚀 Tecnologias Utilizadas
-* **HTML5**: Estrutura semântica para dados e tabelas.
-* **CSS3**: Layout responsivo com Flexbox e ajustes Mobile-First.
-* **Design**: Foco em usabilidade e interface limpa (Clean UI).
+## ✨ Funcionalidades Implementadas
+- ✅ **Ranking Dinâmico:** Filtros de visualização "Geral" e "Mensal" via JavaScript.
+- ✅ **Histórico de Jogos Inteligente:** Sistema de botões que filtra rodadas automaticamente por data.
+- ✅ **Data Tracking:** Integração com Google Analytics para monitoramento de acessos e comportamento dos usuários.
+- ✅ **Mobile-First:** Design totalmente otimizado para visualização em campos e quadras através do celular.
 
-## 📸 Preview
+## 🚀 Tecnologias e Ferramentas
+* **HTML5 & CSS3**: Estrutura moderna e layout responsivo.
+* **JavaScript (ES6+)**: Manipulação de DOM para renderização dinâmica dos placares e tabelas de pontos.
+* **Google Analytics 4 (GA4)**: Monitoramento de tráfego e métricas de engajamento.
+* **GitHub Pages**: Hospedagem e Deploy contínuo.
+
+## 📸 Interface
 <div align="center">
-  <p><i>Visualização do Ranking no Mobile (Simulado via DevTools)</i></p>
-  <img src="./img/screenshot.png" width="300px" style="border-radius: 10px; border: 1px solid #ddd;">
+  <p><i>Visualização das novas abas de filtro e placares</i></p>
+  <img src="./img/screenshot.png" width="280px" style="border-radius: 10px; border: 2px solid #333;">
 </div>
 
-## 🛠️ Próximos Passos
-Como estou cursando **Análise e Desenvolvimento de Sistemas (ADS)**, o plano de evolução deste software inclui:
-- [ ] Implementar **JavaScript** para cálculos automáticos de pontos.
-- [ ] Criar um sistema de busca de atletas por nome.
-- [ ] Persistência de dados (Banco de Dados ou LocalStorage).
+## 🛠️ Evolução Acadêmica (ADS)
+Este projeto faz parte do meu portfólio no curso de **Análise e Desenvolvimento de Sistemas (ADS)**, aplicando conceitos de:
+- Lógica de programação aplicada a filtros de dados.
+- Estrutura de dados para organização de partidas e atletas.
+- UX (User Experience) focada em acessibilidade rápida.
 
 ## 📄 Licença
 Este projeto está sob a licença **MIT**.
 
 ---
-<p align="center">Desenvolvido com foco em fundamentos de programação e arquitetura de sistemas 🚀</p>
+<p align="center">Desenvolvido por <strong>Rubens Melo</strong> 🚀</p>
