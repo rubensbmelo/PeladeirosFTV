@@ -29,22 +29,23 @@
     <main class="container">
         <img src="./img/peladeiros.png" alt="Logo Peladeiros" class="logo-flutuante">
 
-        <h1 class="titulo-principal">Rodada Completa</h1>
-        <p class="intro">Resultados atualizados em tempo real</p>
+        <h1 class="titulo-principal">Histórico de Jogos</h1>
+        <p class="intro">Confira os resultados das últimas rodadas da nossa pelada.</p>
 
-        <div id="container-dinamico-jogos"></div>
+        <section id="lista-rodadas">
+            </section>
 
         <div style="text-align: center; margin-top: 40px;">
-            <a href="index.html" class="btn-local">Voltar para o Início</a>
+            <a href="index.html" class="btn-local">Voltar para a Home</a>
         </div>
     </main>
 
     <footer class="rodape-preto">
         <div class="social-links">
-            <a href="https://www.instagram.com/peladeirosdefutevolei..." target="_blank">
+            <a href="https://www.instagram.com/peladeirosdefutevolei" target="_blank">
                 <img src="./img/instagram.jpeg" alt="Instagram" class="icon">
             </a>
-            <a href="https://youtube.com/@peladeirosdefutevolei..." target="_blank">
+            <a href="https://youtube.com/@peladeirosdefutevolei" target="_blank">
                 <img src="./img/youtube.png" alt="YouTube" class="icon">
             </a>
         </div>
@@ -53,35 +54,27 @@
 
     <script src="dados_jogos.js"></script>
     <script>
-        // Função que desenha os jogos na tela
-        const areaDeJogos = document.getElementById('container-dinamico-jogos');
-
-        bancoDeDadosJogos.forEach(rodada => {
-            // Cria o HTML dos cards de cada jogo
-            const cardsHTML = rodada.jogos.map(jogo => `
-                <div class="card-jogo">
-                    <div class="time time-dir">${jogo.t1}</div>
-                    <div class="placar-box">${jogo.p}</div>
-                    <div class="time time-esq">${jogo.t2}</div>
+        function renderizarTodosJogos() {
+            const container = document.getElementById('lista-rodadas');
+            
+            // Gerar o HTML de cada rodada presente no seu dados_jogos.js
+            container.innerHTML = bancoDeDadosJogos.map((rodada, index) => `
+                <div class="rodada-bloco" style="margin-bottom: 50px;">
+                    <h2 class="data-titulo">${rodada.data}</h2>
+                    <div class="grid-placares">
+                        ${rodada.jogos.map(jogo => `
+                            <div class="card-jogo">
+                                <div class="time time-dir">${jogo.t1}</div>
+                                <div class="placar-box">${jogo.p}</div>
+                                <div class="time time-esq">${jogo.t2}</div>
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
             `).join('');
+        }
 
-            if (rodada.atual) {
-                // Se for a rodada atual, mostra o título e o grid aberto
-                areaDeJogos.innerHTML += `
-                    <h2 class="data-titulo">Rodada de Hoje - ${rodada.data}</h2>
-                    <div class="grid-placares">${cardsHTML}</div>
-                `;
-            } else {
-                // Se for antiga, coloca automaticamente dentro do "Ver Rodada Anterior"
-                areaDeJogos.innerHTML += `
-                    <details>
-                        <summary>Ver Rodada Anterior - ${rodada.data}</summary>
-                        <div class="grid-placares">${cardsHTML}</div>
-                    </details>
-                `;
-            }
-        });
+        window.onload = renderizarTodosJogos;
     </script>
 </body>
 </html>
