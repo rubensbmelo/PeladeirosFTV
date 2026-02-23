@@ -319,11 +319,59 @@ summary:hover { background: #222; }
     transition: 0.3s;
 }
 
-/* --- 9. Responsividade --- */
+/* --- 9. Responsividade (Ajustes Cirúrgicos) --- */
 @media (max-width: 768px) {
-    .container { width: 95%; margin-top: 80px; padding: 70px 10px 20px 10px; }
-    .grid-placares { grid-template-columns: 1fr; }
-    
+    /* 1. Faz o menu quebrar linha para não sumir da tela */
+    .menu-nav { 
+        flex-wrap: wrap; 
+        padding: 5px 0;
+    }
+
+    .menu-nav a {
+        font-size: 11px; /* Diminui a letra no celular */
+        padding: 10px 12px;
+    }
+
+    /* 2. Ajusta o container para a logo não cobrir o título */
+    .container { 
+        width: 95%; 
+        margin-top: 70px; /* Desce um pouco o quadro branco */
+        padding: 60px 15px 20px 15px; 
+    }
+
+    /* 3. Diminui a logo no celular */
+    .logo-flutuante {
+        width: 110px;
+        top: -60px; /* Posiciona ela melhor */
+    }
+
+    .titulo-principal {
+        font-size: 22px; /* Diminui o título para não quebrar feio */
+    }
+
+    /* 4. Ajusta os placares para não ficarem apertados */
+    .grid-placares { 
+        grid-template-columns: 1fr; 
+    }
+
+    .time {
+        font-size: 11px;
+    }
+
+    .placar-box {
+        min-width: 50px;
+        font-size: 13px;
+        margin: 0 5px;
+    }
+
+    /* 5. Ajustes de títulos */
+    h2, .data-titulo {
+        text-align: center;
+        border-left: none;
+        border-bottom: 4px solid #ffca28;
+        padding-left: 0;
+    }
+
     .ranking-controls {
         flex-direction: column;
         padding: 0 20px;
@@ -331,13 +379,5 @@ summary:hover { background: #222; }
 
     .btn-filtro {
         width: 100%;
-        text-align: center;
-    }
-    
-    h2, .data-titulo {
-        text-align: center;
-        border-left: none;
-        border-bottom: 4px solid #ffca28;
-        padding-left: 0;
     }
 }
