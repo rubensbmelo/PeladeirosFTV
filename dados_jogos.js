@@ -1,7 +1,27 @@
 const bancoDeDadosJogos = [
     {
-        data: "01/03/2026",
+        data: "08/03/2026",
         atual: true,
+        jogos: [
+            { t1: "Rafael / Fabio", p: "15 x 8", t2: "Joao / Diniz" },
+            { t1: "Rafael / Fabio", p: "15 x 10", t2: "Anderson / Rubinho" },
+            { t1: "Rafael / Fabio", p: "15 x 9", t2: "Alex / Thiago" },
+            { t1: "Joao / Diniz", p: "15 x 8", t2: "Anderson / Rubinho" },
+            { t1: "Rafael / Fabio", p: "15 x 13", t2: "Joao / Diniz" },
+            { t1: "Alex / Thiago", p: "11 x 15", t2: "Anderson / Rubinho" },
+            { t1: "Anderson / Rubinho", p: "8 x 15", t2: "Rafael / Fabio" },
+            { t1: "Rafael / Fabio", p: "15 x 5", t2: "Joao / Diniz" },
+            { t1: "Rafael / Fabio", p: "5 x 15", t2: "Alex / Thiago" },
+            { t1: "Alex / Thiago", p: "15 x 5", t2: "Anderson / Rubinho" },
+            { t1: "Joao / Paulo", p: "5 x 15", t2: "Alex / Thiago" },
+            { t1: "Paulo / Diniz", p: "15 x 13", t2: "Anderson / Rubinho" },
+            { t1: "Paulo / Diniz", p: "15 x 10", t2: "Rafael / Fabio" },
+            { t1: "Paulo / Diniz", p: "15 x 10", t2: "Alex / Thiago" }
+        ]
+    },
+    {
+        data: "01/03/2026",
+        atual: false,
         jogos: [
             { t1: "Marcio / Alex", p: "15 x 5", t2: "Paulo / Anderson" },
             { t1: "Julio / Tarciso", p: "10 x 15", t2: "Diniz / Rubinho" },

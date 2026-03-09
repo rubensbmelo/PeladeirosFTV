@@ -1,18 +1,16 @@
-// dados_ranking.js atualizado com a rodada de Março
 const bancoDeDadosRanking = [
-    { nome: "Tarciso", total: 32, mes: 5 },   // 27 + 5 vitórias
-    { nome: "Márcio", total: 29, mes: 5 },    // 24 + 5 vitórias
-    { nome: "Júlio", total: 27, mes: 7 },     // 20 + 7 vitórias
-    { nome: "Rafael", total: 26, mes: 0 },    // 26 + 0 vitórias
-    { nome: "Paulo", total: 19, mes: 4 },     // 15 + 4 vitórias
-    { nome: "Rubens", total: 18, mes: 2 },    // 16 + 2 vitórias (Rubinho)
-    { nome: "Alex", total: 16, mes: 5 },      // 11 + 5 vitórias
-    { nome: "Diniz", total: 15, mes: 2 },     // 13 + 2 vitórias
-    { nome: "Anderson", total: 11, mes: 2 },  // 9 + 2 vitórias
-    { nome: "Thiago", total: 7, mes: 0 },     // 7 + 0 vitórias
-    { nome: "João", total: 6, mes: 1 },       // 5 + 1 vitória
-    { nome: "Fabio", total: 1, mes: 1 }       // Atleta novo entrando no ranking
+    { nome: "Tarciso",   total: 32, mes: 5  },  // sem jogos em 08/03
+    { nome: "Márcio",    total: 29, mes: 5  },  // sem jogos em 08/03
+    { nome: "Júlio",     total: 27, mes: 7  },  // sem jogos em 08/03
+    { nome: "Rafael",    total: 32, mes: 6  },  // 26 + 6
+    { nome: "Paulo",     total: 22, mes: 7  },  // 19 + 3
+    { nome: "Rubens",    total: 19, mes: 3  },  // 18 + 1 (Rubinho)
+    { nome: "Alex",      total: 19, mes: 8  },  // 16 + 3
+    { nome: "Diniz",     total: 18, mes: 5  },  // 15 + 3
+    { nome: "Anderson",  total: 12, mes: 3  },  // 11 + 1
+    { nome: "Thiago",    total: 10, mes: 3  },  // 7 + 3
+    { nome: "João",      total: 7,  mes: 1  },  // 6 + 1 (só 1 jogo, perdeu os outros como dupla)
+    { nome: "Fabio",     total: 7,  mes: 7  },  // 1 + 6
 ];
 
-// Ordenação opcional por vitórias no mês
-bancoDeDadosRanking.sort((a, b) => b.mes - a.mes);
+bancoDeDadosRanking.sort((a, b) => b.total - a.total);
