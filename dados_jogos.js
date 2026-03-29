@@ -8,8 +8,8 @@ const bancoDeDadosJogos = [
             { t1: "Marcio / Rubinho",    p: "15 x 11", t2: "Rafael / Anderson" },
             { t1: "Julio / Tarciso",     p: "13 x 15", t2: "Diniz / Fabinho" },
             { t1: "Marcio / Rubinho",    p: "15 x 11", t2: "Paulo / Anderson" },
-            { t1: "Diniz / Fabinho",    p: "6 x 15",  t2: "Rafael / Julio" },
-            { t1: "Marcio / Rubinho",    p: "15 x 0", t2: "Tarciso / Coxinha Jr." }
+            { t1: "Diniz / Fabinho",     p: "6 x 15",  t2: "Rafael / Julio" },
+            { t1: "Marcio / Rubinho",    p: "15 x 0",  t2: "Tarciso / Coxinha Jr." },
             { t1: "Rafael / Julio",      p: "16 x 14", t2: "Paulo / Anderson" },
             { t1: "Diniz / Fabinho",     p: "11 x 15", t2: "Marcio / Rubinho" },
             { t1: "Rafael / Julio",      p: "15 x 10", t2: "Tarciso / Coxinha Jr." },

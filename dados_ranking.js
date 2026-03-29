@@ -1,9 +1,9 @@
 const bancoDeDadosRanking = [
-    { nome: "Rafael",    total: 42, mes: 16 },
+    { nome: "Rafael",    total: 43, mes: 17 },
     { nome: "Tarciso",   total: 41, mes: 14 },
     { nome: "Márcio",    total: 38, mes: 14 },
+    { nome: "Júlio",     total: 37, mes: 17 },
     { nome: "Rubens",    total: 35, mes: 19 },
-    { nome: "Júlio",     total: 36, mes: 16 },
     { nome: "Paulo",     total: 26, mes: 11 },
     { nome: "Diniz",     total: 26, mes: 13 },
     { nome: "Alex",      total: 22, mes: 11 },
