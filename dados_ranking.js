@@ -1,15 +1,15 @@
 const bancoDeDadosRanking = [
-    { nome: "Rafael",    total: 45, mes: 2  },
-    { nome: "Tarciso",   total: 41, mes: 0  },
+    { nome: "Rafael",    total: 49, mes: 6  },
+    { nome: "Tarciso",   total: 49, mes: 8  },
     { nome: "Júlio",     total: 41, mes: 4  },
     { nome: "Márcio",    total: 38, mes: 0  },
-    { nome: "Rubens",    total: 38, mes: 3  },
-    { nome: "Paulo",     total: 31, mes: 5  },
+    { nome: "Rubens",    total: 41, mes: 6  },
+    { nome: "Paulo",     total: 39, mes: 13 },
     { nome: "Fabio",     total: 17, mes: 5  },
-    { nome: "Diniz",     total: 29, mes: 3  },
-    { nome: "Alex",      total: 22, mes: 0  },
-    { nome: "Anderson",  total: 15, mes: 0  },
-    { nome: "João",      total: 15, mes: 4  },
+    { nome: "Diniz",     total: 30, mes: 4  },
+    { nome: "Alex",      total: 25, mes: 3  },
+    { nome: "Anderson",  total: 19, mes: 4  },
+    { nome: "João",      total: 16, mes: 5  },
     { nome: "Thiago",    total: 14, mes: 0  },
 ];
 
