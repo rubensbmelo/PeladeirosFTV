@@ -1,16 +1,17 @@
 const bancoDeDadosRanking = [
-    { nome: "Rafael",    total: 56, mes: 13 },  // 7 + 6
-    { nome: "Tarciso",   total: 58, mes: 17 },  // 14 + 3
-    { nome: "Júlio",     total: 47, mes: 10 },  // 4 + 6
-    { nome: "Márcio",    total: 38, mes: 0  },  // não jogou
-    { nome: "Rubens",    total: 44, mes: 9  },  // 7 + 2
-    { nome: "Paulo",     total: 44, mes: 18 },  // 16 + 2
-    { nome: "Fabio",     total: 22, mes: 10 },  // sem alteração
-    { nome: "Diniz",     total: 37, mes: 11 },  // 33+4 / 7+4
-    { nome: "Alex",      total: 26, mes: 4  },  // sem alteração
-    { nome: "Anderson",  total: 22, mes: 7  },  // 5 + 2
-    { nome: "João",      total: 22, mes: 11 },  // sem alteração
-    { nome: "Thiago",    total: 14, mes: 0  },  // sem alteração
+    { nome: "Rafael",    total: 61, mes: 5, trofeus: 0, mesesCampeao: [] },
+    { nome: "Tarciso",   total: 62, mes: 4, trofeus: 1, mesesCampeao: ["Fevereiro"] },
+    { nome: "Júlio",     total: 49, mes: 2, trofeus: 0, mesesCampeao: [] },
+    { nome: "Márcio",    total: 38, mes: 0, trofeus: 0, mesesCampeao: [] },
+    { nome: "Rubens",    total: 44, mes: 0, trofeus: 1, mesesCampeao: ["Março"] },
+    { nome: "Paulo",     total: 44, mes: 0, trofeus: 1, mesesCampeao: ["Abril"] },
+    { nome: "Fabio",     total: 25, mes: 3, trofeus: 0, mesesCampeao: [] },
+    { nome: "Diniz",     total: 41, mes: 4, trofeus: 0, mesesCampeao: [] },
+    { nome: "Alex",      total: 26, mes: 0, trofeus: 0, mesesCampeao: [] },
+    { nome: "Anderson",  total: 27, mes: 5, trofeus: 0, mesesCampeao: [] },
+    { nome: "João",      total: 22, mes: 0, trofeus: 0, mesesCampeao: [] },
+    { nome: "Thiago",    total: 17, mes: 3, trofeus: 0, mesesCampeao: [] },
+    { nome: "Samyr",     total: 2,  mes: 2, trofeus: 0, mesesCampeao: [] },
 ];
 
 bancoDeDadosRanking.sort((a, b) => b.total - a.total);

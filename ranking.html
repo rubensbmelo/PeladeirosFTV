@@ -17,6 +17,45 @@
         gtag('js', new Date());
         gtag('config', 'G-G98PRRLH9V');
     </script>
+    <style>
+        .legenda-trofeus {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 0.82em;
+            color: #aaa;
+            letter-spacing: 0.3px;
+        }
+        .legenda-trofeus span {
+            margin: 0 10px;
+        }
+        .trofeu-tooltip {
+            position: relative;
+            cursor: default;
+            display: inline-block;
+        }
+        .trofeu-tooltip .tooltip-text {
+            visibility: hidden;
+            opacity: 0;
+            background-color: #222;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 10px;
+            position: absolute;
+            z-index: 10;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.78em;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        .trofeu-tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
 </head>
 
 <body>
@@ -41,7 +80,7 @@
 
         <div class="ranking-controls">
             <button onclick="mudarRanking('total')" id="btn-total" class="btn-filtro ativo">Geral (Acumulado)</button>
-            <button onclick="mudarRanking('mes')" id="btn-mes" class="btn-filtro">Mensal (Abril)</button>
+            <button onclick="mudarRanking('mes')" id="btn-mes" class="btn-filtro">Mensal (Maio)</button>
         </div>
 
         <section id="ranking-detalhado">
@@ -57,6 +96,12 @@
                     <tbody id="tabela-corpo">
                     </tbody>
                 </table>
+            </div>
+
+            <div id="legenda-trofeus" class="legenda-trofeus" style="display:none;">
+                <span>🥇 Líder do ranking geral</span>
+                <span>|</span>
+                <span>🏆 Campeão mensal</span>
             </div>
 
             <div style="text-align: center; margin-top: 30px;">
@@ -85,47 +130,61 @@
             const btnTotal = document.getElementById('btn-total');
             const btnMes = document.getElementById('btn-mes');
             const titulo = document.getElementById('titulo-ranking');
+            const legenda = document.getElementById('legenda-trofeus');
 
-            // 1. ORDENAR: Primeiro por pontos (descendente) e depois por Nome (alfabética)
+            // 1. ORDENAR
             const rankingOrdenado = [...bancoDeDadosRanking].sort((a, b) => {
-                if (b[tipo] !== a[tipo]) {
-                    return b[tipo] - a[tipo];
-                }
-                return a.nome.localeCompare(b.nome); // Ordem alfabética A-Z
+                if (b[tipo] !== a[tipo]) return b[tipo] - a[tipo];
+                return a.nome.localeCompare(b.nome);
             });
 
             const maiorPontuacao = rankingOrdenado[0][tipo];
 
-            // 2. Atualizar visual
+            // 2. Atualizar visual dos botões e títulos
             if (tipo === 'total') {
                 btnTotal.classList.add('ativo');
                 btnMes.classList.remove('ativo');
                 label.innerText = 'Total';
                 titulo.innerText = 'Ranking Geral (Acumulado)';
+                legenda.style.display = 'block';
             } else {
                 btnMes.classList.add('ativo');
                 btnTotal.classList.remove('ativo');
-                label.innerText = 'Vitórias (ABR)';
-                titulo.innerText = 'Ranking Mensal (Abril)';
+                label.innerText = 'Vitórias (MAI)';
+                titulo.innerText = 'Ranking Mensal (Maio)';
+                legenda.style.display = 'none';
             }
 
-            // 3. Gerar as linhas com lógica de posição empatada
+            // 3. Gerar linhas
             let posicaoExibida = 1;
 
             corpo.innerHTML = rankingOrdenado.map((atleta, index) => {
-                // Se não for o primeiro e a pontuação for menor que o anterior, 
-                // a posição pula para o número do índice + 1
                 if (index > 0 && atleta[tipo] < rankingOrdenado[index - 1][tipo]) {
                     posicaoExibida = index + 1;
                 }
 
                 const eLider = atleta[tipo] === maiorPontuacao;
 
+                // 🥇 líder geral (só no modo total)
+                const medalhaLider = (tipo === 'total' && eLider)
+                    ? `<span class="trofeu-tooltip"> 🥇<span class="tooltip-text">Líder do ranking geral</span></span>`
+                    : '';
+
+                // 🏆 líder mensal (só no modo mes)
+                const trofeuLiderMes = (tipo === 'mes' && eLider)
+                    ? ` 🏆`
+                    : '';
+
+                // 🏆 campeão mensal (só no modo total)
+                const trofeuMensal = (tipo === 'total' && atleta.trofeus > 0 && atleta.mesesCampeao.length > 0)
+                    ? `<span class="trofeu-tooltip"> 🏆<span class="tooltip-text">Campeão de ${atleta.mesesCampeao.join(', ')}</span></span>`
+                    : '';
+
                 return `
                     <tr class="${eLider ? 'primeiro-lugar' : ''}">
                         <td>${posicaoExibida}º</td>
                         <td style="text-align: left; padding-left: 20px;">
-                            ${atleta.nome} ${eLider ? '🏆' : ''}
+                            ${atleta.nome}${medalhaLider}${trofeuMensal}${trofeuLiderMes}
                         </td>
                         <td><strong>${atleta[tipo]}</strong></td>
                     </tr>
