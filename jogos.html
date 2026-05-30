@@ -65,53 +65,105 @@
 
     <script src="dados_jogos.js"></script>
     <script>
-        // Função para filtrar as rodadas
-        function filtrarRodadas(dataSelecionada, elementoBotao) {
-            // Ajusta os botões ativos
-            const botoes = document.querySelectorAll('.btn-filtro');
-            botoes.forEach(btn => btn.classList.remove('ativo'));
-            elementoBotao.classList.add('ativo');
+        const MESES_PT = ['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
 
-            const blocos = document.querySelectorAll('.rodada-bloco');
-            blocos.forEach(bloco => {
-                if (dataSelecionada === 'todas' || bloco.getAttribute('data-data') === dataSelecionada) {
-                    bloco.style.display = 'block';
-                } else {
-                    bloco.style.display = 'none';
-                }
+        function getMesKey(dataStr) {
+            const partes = dataStr.split('/');
+            return partes[2] + '-' + partes[1];
+        }
+
+        function getMesLabel(dataStr) {
+            const mes = parseInt(dataStr.split('/')[1], 10);
+            return MESES_PT[mes - 1];
+        }
+
+        let mesSelecionado = null;
+        let dataSelecionada = null;
+
+        function filtrarPorMes(mesKey, elementoBotao) {
+            document.querySelectorAll('.btn-mes').forEach(btn => btn.classList.remove('ativo'));
+            elementoBotao.classList.add('ativo');
+            mesSelecionado = mesKey;
+            dataSelecionada = null;
+            renderizarBotoesDias();
+            aplicarFiltros();
+        }
+
+        function filtrarPorDia(data, elementoBotao) {
+            document.querySelectorAll('.btn-filtro').forEach(btn => btn.classList.remove('ativo'));
+            elementoBotao.classList.add('ativo');
+            dataSelecionada = data;
+            aplicarFiltros();
+        }
+
+        function aplicarFiltros() {
+            document.querySelectorAll('.rodada-bloco').forEach(bloco => {
+                const dataBloco = bloco.getAttribute('data-data');
+                const passaMes = !mesSelecionado || getMesKey(dataBloco) === mesSelecionado;
+                const passaDia = !dataSelecionada || dataBloco === dataSelecionada;
+                bloco.style.display = (passaMes && passaDia) ? 'block' : 'none';
             });
+        }
+
+        function renderizarBotoesDias() {
+            const containerDias = document.getElementById('filtros-dias');
+            const rodadasFiltradas = mesSelecionado
+                ? bancoDeDadosJogos.filter(r => getMesKey(r.data) === mesSelecionado)
+                : bancoDeDadosJogos;
+
+            let html = `<button class="btn-filtro ativo" onclick="filtrarPorDia(null, this)">Todas</button>`;
+            rodadasFiltradas.forEach(rodada => {
+                html += `<button class="btn-filtro" onclick="filtrarPorDia('${rodada.data}', this)">${rodada.data}</button>`;
+            });
+            containerDias.innerHTML = html;
         }
 
         function renderizarPaginaJogos() {
             const containerJogos = document.getElementById('lista-rodadas');
             const containerFiltros = document.getElementById('filtros-jogos');
-            
-            // 1. Criar Botão "Todas"
-            let htmlBotoes = `<button class="btn-filtro ativo" onclick="filtrarRodadas('todas', this)">Todas</button>`;
 
-            // 2. Renderizar os Jogos e pegar as datas para os botões
-            containerJogos.innerHTML = bancoDeDadosJogos.map((rodada) => {
-                // Adiciona botão para cada data
-                htmlBotoes += `<button class="btn-filtro" onclick="filtrarRodadas('${rodada.data}', this)">${rodada.data}</button>`;
-
-                return `
-                    <div class="rodada-bloco" data-data="${rodada.data}" style="margin-bottom: 50px;">
-                        <h2 class="data-titulo">${rodada.data}</h2>
-                        <div class="grid-placares">
-                            ${rodada.jogos.map(jogo => `
-                                <div class="card-jogo">
-                                    <div class="time time-dir">${jogo.t1}</div>
-                                    <div class="placar-box">${jogo.p}</div>
-                                    <div class="time time-esq">${jogo.t2}</div>
-                                </div>
-                            `).join('')}
-                        </div>
+            containerJogos.innerHTML = bancoDeDadosJogos.map(rodada => `
+                <div class="rodada-bloco" data-data="${rodada.data}" style="margin-bottom: 50px;">
+                    <h2 class="data-titulo">${rodada.data}</h2>
+                    <div class="grid-placares">
+                        ${rodada.jogos.map(jogo => `
+                            <div class="card-jogo">
+                                <div class="time time-dir">${jogo.t1}</div>
+                                <div class="placar-box">${jogo.p}</div>
+                                <div class="time time-esq">${jogo.t2}</div>
+                            </div>
+                        `).join('')}
                     </div>
-                `;
-            }).join('');
+                </div>
+            `).join('');
 
-            // Injeta os botões gerados
-            containerFiltros.innerHTML = htmlBotoes;
+            // Extrair meses únicos em ordem cronológica (mais antigo → mais recente)
+            const mesesVistos = new Set();
+            const mesesOrdenados = [];
+            [...bancoDeDadosJogos].reverse().forEach(rodada => {
+                const key = getMesKey(rodada.data);
+                if (!mesesVistos.has(key)) {
+                    mesesVistos.add(key);
+                    mesesOrdenados.push({ key, label: getMesLabel(rodada.data) });
+                }
+            });
+
+            // Seleciona o mês mais recente por padrão
+            mesSelecionado = getMesKey(bancoDeDadosJogos[0].data);
+
+            let htmlMeses = `<button class="btn-mes" onclick="filtrarPorMes(null, this)">TODOS</button>`;
+            mesesOrdenados.forEach(({ key, label }) => {
+                const ativo = key === mesSelecionado ? ' ativo' : '';
+                htmlMeses += `<button class="btn-mes${ativo}" onclick="filtrarPorMes('${key}', this)">${label}</button>`;
+            });
+
+            containerFiltros.innerHTML = `
+                <div class="filtros-meses">${htmlMeses}</div>
+                <div id="filtros-dias" class="filtros-dias"></div>
+            `;
+
+            renderizarBotoesDias();
+            aplicarFiltros();
         }
 
         window.onload = renderizarPaginaJogos;

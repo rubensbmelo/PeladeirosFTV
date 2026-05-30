@@ -254,18 +254,56 @@ summary:hover { background: #222; }
 /* --- 7. NOVOS CONTROLES DE FILTRO (BOTÕES) --- */
 .ranking-controls {
     display: flex;
-    justify-content: center;
-    gap: 12px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
     margin: 30px 0;
+}
+
+.filtros-meses,
+.filtros-dias {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
     flex-wrap: wrap;
+}
+
+.btn-mes {
+    background-color: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
+    padding: 10px 22px;
+    font-size: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.btn-mes:hover {
+    background-color: #ffca28;
+    border-color: #ffca28;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(255, 202, 40, 0.2);
+}
+
+.btn-mes.ativo {
+    background-color: #000000;
+    color: #ffca28;
+    border-color: #000000;
+    transform: scale(0.95);
+    box-shadow: none;
 }
 
 .btn-filtro {
     background-color: #ffffff;
     color: #000000;
     border: 2px solid #000000;
-    padding: 10px 22px;
-    font-size: 13px;
+    padding: 8px 18px;
+    font-size: 12px;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -373,11 +411,11 @@ summary:hover { background: #222; }
     }
 
     .ranking-controls {
-        flex-direction: column;
         padding: 0 20px;
     }
 
-    .btn-filtro {
+    .filtros-meses,
+    .filtros-dias {
         width: 100%;
     }
 }
