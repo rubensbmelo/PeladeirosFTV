@@ -151,7 +151,7 @@
             // Seleciona o mês mais recente por padrão
             mesSelecionado = getMesKey(bancoDeDadosJogos[0].data);
 
-            let htmlMeses = `<button class="btn-mes" onclick="filtrarPorMes(null, this)">TODOS</button>`;
+            let htmlMeses = '';
             mesesOrdenados.forEach(({ key, label }) => {
                 const ativo = key === mesSelecionado ? ' ativo' : '';
                 htmlMeses += `<button class="btn-mes${ativo}" onclick="filtrarPorMes('${key}', this)">${label}</button>`;
