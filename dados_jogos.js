@@ -1,7 +1,23 @@
 const bancoDeDadosJogos = [
     {
-        data: "10/05/2026",
+        data: "24/05/2026",
         atual: true,
+        jogos: [
+            { t1: "Tarciso / Samyr",    p: "7 x 15",  t2: "Paulo / Coxinha" },
+            { t1: "Rafael / Diniz",     p: "11 x 15", t2: "Paulo / Coxinha" },
+            { t1: "Rafael / Diniz",     p: "15 x 8",  t2: "Tarciso / Samyr" },
+            { t1: "Rafael / Diniz",     p: "14 x 16", t2: "Paulo / Coxinha" },
+            { t1: "Tarciso / Samyr",    p: "5 x 15",  t2: "Paulo / Coxinha" },
+            { t1: "Tarciso / Samyr",    p: "7 x 15",  t2: "Rafael / Diniz" },
+            { t1: "Paulo / Coxinha",    p: "15 x 8",  t2: "Tarciso / Samyr" },
+            { t1: "Paulo / Coxinha",    p: "14 x 16", t2: "Rafael / Diniz" },
+            { t1: "Rafael / Diniz",     p: "11 x 15", t2: "Tarciso / Samyr" },
+            { t1: "Rafael / Diniz",     p: "15 x 10", t2: "Tarciso / Samyr" }
+        ]
+    },
+    {
+        data: "10/05/2026",
+        atual: false,
         jogos: [
             { t1: "Paulo / Samyr",    p: "7 x 15",  t2: "Rubinho / Joao" },
             { t1: "Fabio / Tarciso",  p: "15 x 7",  t2: "Lucas / Anderson" },
