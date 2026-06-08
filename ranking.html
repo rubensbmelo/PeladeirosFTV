@@ -19,42 +19,20 @@
     </script>
     <style>
         .legenda-trofeus {
-            text-align: center;
-            margin-top: 18px;
-            font-size: 0.82em;
-            color: #aaa;
-            letter-spacing: 0.3px;
+            text-align: center; margin-top: 18px; font-size: 0.82em; color: #aaa; letter-spacing: 0.3px;
         }
-        .legenda-trofeus span {
-            margin: 0 10px;
-        }
+        .legenda-trofeus span { margin: 0 10px; }
         .trofeu-tooltip {
-            position: relative;
-            cursor: default;
-            display: inline-block;
+            position: relative; cursor: default; display: inline-block;
         }
         .trofeu-tooltip .tooltip-text {
-            visibility: hidden;
-            opacity: 0;
-            background-color: #222;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 10px;
-            position: absolute;
-            z-index: 10;
-            bottom: 130%;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            font-size: 0.78em;
-            transition: opacity 0.2s;
-            pointer-events: none;
+            visibility: hidden; opacity: 0; background-color: #222; color: #fff;
+            text-align: center; border-radius: 6px; padding: 5px 10px;
+            position: absolute; z-index: 10; bottom: 130%; left: 50%;
+            transform: translateX(-50%); white-space: nowrap; font-size: 0.78em;
+            transition: opacity 0.2s; pointer-events: none;
         }
-        .trofeu-tooltip:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-        }
+        .trofeu-tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
     </style>
 </head>
 
@@ -78,36 +56,41 @@
         <h1 class="titulo-principal" id="titulo-ranking">Ranking Mensalistas</h1>
         <p class="intro">Confira a classificação detalhada de todos os nossos atletas.</p>
 
-        <div class="ranking-controls">
-            <button onclick="mudarRanking('total')" id="btn-total" class="btn-filtro ativo">Geral (Acumulado)</button>
-            <button onclick="mudarRanking('mes')" id="btn-mes" class="btn-filtro">Mensal (Maio)</button>
+        <div id="loading" style="text-align:center; padding: 40px; color: #aaa; font-family: 'Montserrat', sans-serif; font-size: 0.9rem; letter-spacing: 1px;">
+            Carregando ranking...
         </div>
 
-        <section id="ranking-detalhado">
-            <div style="overflow-x: auto;">
-                <table class="tabela-ranking">
-                    <thead>
-                        <tr>
-                            <th>Pos</th>
-                            <th style="text-align: left; padding-left: 20px;">Atleta</th>
-                            <th id="label-pontos">Pontos</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabela-corpo">
-                    </tbody>
-                </table>
+        <div id="conteudo-ranking" style="display:none;">
+            <div class="ranking-controls">
+                <button onclick="mudarRanking('total')" id="btn-total" class="btn-filtro ativo">Geral (Acumulado)</button>
+                <button onclick="mudarRanking('mes')" id="btn-mes" class="btn-filtro">Mensal (<span id="label-mes-btn">Mês</span>)</button>
             </div>
 
-            <div id="legenda-trofeus" class="legenda-trofeus" style="display:none;">
-                <span>🥇 Líder do ranking geral</span>
-                <span>|</span>
-                <span>🏆 Campeão mensal</span>
-            </div>
+            <section id="ranking-detalhado">
+                <div style="overflow-x: auto;">
+                    <table class="tabela-ranking">
+                        <thead>
+                            <tr>
+                                <th>Pos</th>
+                                <th style="text-align: left; padding-left: 20px;">Atleta</th>
+                                <th id="label-pontos">Pontos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-corpo"></tbody>
+                    </table>
+                </div>
 
-            <div style="text-align: center; margin-top: 30px;">
-                <a href="index.html" class="btn-local">Voltar para a Home</a>
-            </div>
-        </section>
+                <div id="legenda-trofeus" class="legenda-trofeus" style="display:none;">
+                    <span>🥇 Líder do ranking geral</span>
+                    <span>|</span>
+                    <span>🏆 Campeão mensal</span>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <a href="index.html" class="btn-local">Voltar para a Home</a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="rodape-preto">
@@ -122,9 +105,26 @@
         <p>&copy; 2026 Peladeiros de Futevôlei</p>
     </footer>
 
-    <script src="dados_ranking.js"></script>
-    <script>
-        function mudarRanking(tipo) {
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyiMxWmU6ez1i_wdXNJ3egDziaR-A",
+            authDomain: "peladeiros-ftv.firebaseapp.com",
+            projectId: "peladeiros-ftv",
+            storageBucket: "peladeiros-ftv.firebasestorage.app",
+            messagingSenderId: "145877201809",
+            appId: "1:145877201809:web:ba9aca8aca228cf3637878"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let bancoDeDadosRanking = [];
+        let mesAtual = 'Mês';
+
+        window.mudarRanking = function(tipo) {
             const corpo = document.getElementById('tabela-corpo');
             const label = document.getElementById('label-pontos');
             const btnTotal = document.getElementById('btn-total');
@@ -132,68 +132,70 @@
             const titulo = document.getElementById('titulo-ranking');
             const legenda = document.getElementById('legenda-trofeus');
 
-            // 1. ORDENAR
             const rankingOrdenado = [...bancoDeDadosRanking].sort((a, b) => {
                 if (b[tipo] !== a[tipo]) return b[tipo] - a[tipo];
                 return a.nome.localeCompare(b.nome);
             });
 
-            const maiorPontuacao = rankingOrdenado[0][tipo];
+            const maiorPontuacao = rankingOrdenado[0]?.[tipo] ?? 0;
 
-            // 2. Atualizar visual dos botões e títulos
             if (tipo === 'total') {
-                btnTotal.classList.add('ativo');
-                btnMes.classList.remove('ativo');
+                btnTotal.classList.add('ativo'); btnMes.classList.remove('ativo');
                 label.innerText = 'Total';
                 titulo.innerText = 'Ranking Geral (Acumulado)';
                 legenda.style.display = 'block';
             } else {
-                btnMes.classList.add('ativo');
-                btnTotal.classList.remove('ativo');
-                label.innerText = 'Vitórias (MAI)';
-                titulo.innerText = 'Ranking Mensal (Maio)';
+                btnMes.classList.add('ativo'); btnTotal.classList.remove('ativo');
+                label.innerText = `Vitórias (${mesAtual.slice(0,3).toUpperCase()})`;
+                titulo.innerText = `Ranking Mensal (${mesAtual})`;
                 legenda.style.display = 'none';
             }
 
-            // 3. Gerar linhas
             let posicaoExibida = 1;
-
             corpo.innerHTML = rankingOrdenado.map((atleta, index) => {
-                if (index > 0 && atleta[tipo] < rankingOrdenado[index - 1][tipo]) {
-                    posicaoExibida = index + 1;
-                }
-
+                if (index > 0 && atleta[tipo] < rankingOrdenado[index - 1][tipo]) posicaoExibida = index + 1;
                 const eLider = atleta[tipo] === maiorPontuacao;
-
-                // 🥇 líder geral (só no modo total)
                 const medalhaLider = (tipo === 'total' && eLider)
-                    ? `<span class="trofeu-tooltip"> 🥇<span class="tooltip-text">Líder do ranking geral</span></span>`
-                    : '';
-
-                // 🏆 líder mensal (só no modo mes)
-                const trofeuLiderMes = (tipo === 'mes' && eLider)
-                    ? ` 🏆`
-                    : '';
-
-                // 🏆 campeão mensal (só no modo total)
-                const trofeuMensal = (tipo === 'total' && atleta.trofeus > 0 && atleta.mesesCampeao.length > 0)
-                    ? `<span class="trofeu-tooltip"> 🏆<span class="tooltip-text">Campeão de ${atleta.mesesCampeao.join(', ')}</span></span>`
-                    : '';
-
+                    ? `<span class="trofeu-tooltip"> 🥇<span class="tooltip-text">Líder do ranking geral</span></span>` : '';
+                const trofeuLiderMes = (tipo === 'mes' && eLider) ? ` 🏆` : '';
+                const trofeuMensal = (tipo === 'total' && atleta.trofeus > 0 && atleta.mesesCampeao?.length > 0)
+                    ? `<span class="trofeu-tooltip"> 🏆<span class="tooltip-text">Campeão de ${atleta.mesesCampeao.join(', ')}</span></span>` : '';
                 return `
                     <tr class="${eLider ? 'primeiro-lugar' : ''}">
                         <td>${posicaoExibida}º</td>
-                        <td style="text-align: left; padding-left: 20px;">
-                            ${atleta.nome}${medalhaLider}${trofeuMensal}${trofeuLiderMes}
-                        </td>
+                        <td style="text-align: left; padding-left: 20px;">${atleta.nome}${medalhaLider}${trofeuMensal}${trofeuLiderMes}</td>
                         <td><strong>${atleta[tipo]}</strong></td>
                     </tr>
                 `;
             }).join('');
         }
 
-        window.onload = () => mudarRanking('total');
-    </script>
-</body>
+        async function carregarRanking() {
+            try {
+                const snap = await getDoc(doc(db, 'config', 'ranking'));
+                if (snap.exists()) {
+                    const d = snap.data();
+                    bancoDeDadosRanking = d.atletas;
+                    mesAtual = d.mesAtual || 'Mês';
+                } else {
+                    // Fallback para dados locais
+                    bancoDeDadosRanking = (typeof bancoDeDadosRankingLocal !== 'undefined') ? bancoDeDadosRankingLocal : [];
+                }
+            } catch(e) {
+                bancoDeDadosRanking = (typeof bancoDeDadosRankingLocal !== 'undefined') ? bancoDeDadosRankingLocal : [];
+            }
 
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('conteudo-ranking').style.display = 'block';
+            document.getElementById('label-mes-btn').textContent = mesAtual;
+            mudarRanking('total');
+        }
+
+        carregarRanking();
+    </script>
+
+    <!-- Dados locais como fallback -->
+    <script src="dados_ranking.js" onload="window.bancoDeDadosRankingLocal = bancoDeDadosRanking"></script>
+
+</body>
 </html>

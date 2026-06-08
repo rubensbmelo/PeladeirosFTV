@@ -7,14 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: #111;
-            color: #fff;
-            min-height: 100vh;
-            padding: 20px;
-        }
+        body { font-family: 'Montserrat', sans-serif; background: #111; color: #fff; min-height: 100vh; padding: 20px; }
 
         header {
             background: #000;
@@ -25,26 +18,40 @@
             justify-content: space-between;
             margin: -20px -20px 30px -20px;
         }
+        header h1 { font-size: 1.2rem; font-weight: 900; letter-spacing: 2px; color: #f5c518; text-transform: uppercase; }
+        header a { color: #aaa; text-decoration: none; font-size: 0.8rem; letter-spacing: 1px; }
 
-        header h1 {
-            font-size: 1.2rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            color: #f5c518;
-            text-transform: uppercase;
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 6px;
         }
-
-        header a {
-            color: #aaa;
-            text-decoration: none;
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
             font-size: 0.8rem;
+            font-weight: 700;
             letter-spacing: 1px;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            background: transparent;
+            color: #666;
+            transition: all 0.2s;
         }
+        .tab.ativo { background: #f5c518; color: #000; }
 
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-        }
+        .aba { display: none; }
+        .aba.ativa { display: block; }
+
+        .container { max-width: 700px; margin: 0 auto; }
 
         .card {
             background: #1a1a1a;
@@ -53,246 +60,109 @@
             padding: 24px;
             margin-bottom: 24px;
         }
-
         .card h2 {
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: #f5c518;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #333;
+            font-size: 1rem; font-weight: 700; letter-spacing: 2px;
+            text-transform: uppercase; color: #f5c518;
+            margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid #333;
         }
 
-        .field {
-            margin-bottom: 16px;
+        .field { margin-bottom: 16px; }
+        label { display: block; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #aaa; margin-bottom: 6px; }
+        input, select {
+            width: 100%; background: #111; border: 1px solid #444; border-radius: 8px;
+            padding: 10px 14px; color: #fff; font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem; transition: border-color 0.2s;
         }
+        input:focus, select:focus { outline: none; border-color: #f5c518; }
+        select option { background: #111; }
 
-        label {
-            display: block;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #aaa;
-            margin-bottom: 6px;
-        }
-
-        input {
-            width: 100%;
-            background: #111;
-            border: 1px solid #444;
-            border-radius: 8px;
-            padding: 10px 14px;
-            color: #fff;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.9rem;
-            transition: border-color 0.2s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #f5c518;
-        }
-
+        /* Jogos */
         .jogo-row {
-            display: grid;
-            grid-template-columns: 1fr 80px 1fr;
-            gap: 8px;
-            align-items: center;
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 10px 12px;
-            margin-bottom: 8px;
-            position: relative;
+            display: grid; grid-template-columns: 1fr 80px 1fr; gap: 8px; align-items: center;
+            background: #111; border: 1px solid #333; border-radius: 8px;
+            padding: 10px 12px; margin-bottom: 8px; position: relative;
         }
-
-        .jogo-row input {
-            border: none;
-            background: transparent;
-            padding: 6px 8px;
-            text-align: center;
-            font-size: 0.85rem;
-        }
-
-        .jogo-row input:focus {
-            background: #1a1a1a;
-            border-radius: 6px;
-        }
-
-        .placar-input {
-            text-align: center !important;
-            font-weight: 700;
-            color: #f5c518 !important;
-            font-size: 1rem !important;
-        }
-
+        .jogo-row input { border: none; background: transparent; padding: 6px 8px; text-align: center; font-size: 0.85rem; }
+        .jogo-row input:focus { background: #1a1a1a; border-radius: 6px; }
+        .placar-input { text-align: center !important; font-weight: 700; color: #f5c518 !important; font-size: 1rem !important; }
         .btn-remove {
-            position: absolute;
-            right: -10px;
-            top: -10px;
-            background: #e74c3c;
-            border: none;
-            border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            color: #fff;
-            font-size: 0.7rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
+            position: absolute; right: -10px; top: -10px;
+            background: #e74c3c; border: none; border-radius: 50%;
+            width: 22px; height: 22px; color: #fff; font-size: 0.7rem;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700;
         }
-
         .btn-add-jogo {
-            width: 100%;
-            background: transparent;
-            border: 1px dashed #444;
-            border-radius: 8px;
-            padding: 10px;
-            color: #666;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 4px;
+            width: 100%; background: transparent; border: 1px dashed #444; border-radius: 8px;
+            padding: 10px; color: #666; font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;
+            cursor: pointer; transition: all 0.2s; margin-top: 4px;
         }
-
-        .btn-add-jogo:hover {
-            border-color: #f5c518;
-            color: #f5c518;
-        }
-
+        .btn-add-jogo:hover { border-color: #f5c518; color: #f5c518; }
         .cols-label {
-            display: grid;
-            grid-template-columns: 1fr 80px 1fr;
-            gap: 8px;
-            margin-bottom: 6px;
-            padding: 0 12px;
+            display: grid; grid-template-columns: 1fr 80px 1fr; gap: 8px;
+            margin-bottom: 6px; padding: 0 12px;
         }
+        .cols-label span { font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; color: #555; text-transform: uppercase; text-align: center; }
+        .contador { font-size: 0.75rem; color: #666; text-align: right; margin-bottom: 8px; }
 
-        .cols-label span {
-            font-size: 0.65rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: #555;
-            text-transform: uppercase;
-            text-align: center;
+        /* Ranking */
+        .atleta-row {
+            display: grid; grid-template-columns: 1fr 70px 70px 70px 1fr; gap: 8px; align-items: center;
+            background: #111; border: 1px solid #333; border-radius: 8px;
+            padding: 10px 12px; margin-bottom: 8px;
         }
+        .atleta-row input { border: none; background: transparent; padding: 6px 8px; text-align: center; font-size: 0.85rem; }
+        .atleta-row input:focus { background: #1a1a1a; border-radius: 6px; }
+        .atleta-row input:first-child { text-align: left; }
+        .cols-label-ranking {
+            display: grid; grid-template-columns: 1fr 70px 70px 70px 1fr; gap: 8px;
+            margin-bottom: 6px; padding: 0 12px;
+        }
+        .cols-label-ranking span { font-size: 0.6rem; font-weight: 700; letter-spacing: 1px; color: #555; text-transform: uppercase; text-align: center; }
 
+        /* Botão salvar */
         .btn-salvar {
-            width: 100%;
-            background: #f5c518;
-            border: none;
-            border-radius: 10px;
-            padding: 16px;
-            color: #000;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-top: 8px;
+            width: 100%; background: #f5c518; border: none; border-radius: 10px;
+            padding: 16px; color: #000; font-family: 'Montserrat', sans-serif;
+            font-size: 1rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer; transition: all 0.2s; margin-top: 8px;
         }
+        .btn-salvar:hover { background: #e0b000; transform: translateY(-1px); }
+        .btn-salvar:disabled { background: #444; color: #666; cursor: not-allowed; transform: none; }
 
-        .btn-salvar:hover {
-            background: #e0b000;
-            transform: translateY(-1px);
-        }
-
-        .btn-salvar:disabled {
-            background: #444;
-            color: #666;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%) translateY(80px);
-            background: #2ecc71;
-            color: #000;
-            font-weight: 700;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            padding: 12px 24px;
-            border-radius: 8px;
-            transition: transform 0.3s ease;
-            z-index: 999;
-        }
-
-        .toast.erro {
-            background: #e74c3c;
-            color: #fff;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .rodadas-lista {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
+        /* Lista salvas */
+        .rodadas-lista { display: flex; flex-direction: column; gap: 8px; }
         .rodada-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 12px 16px;
+            display: flex; align-items: center; justify-content: space-between;
+            background: #111; border: 1px solid #333; border-radius: 8px; padding: 12px 16px;
         }
-
-        .rodada-item span {
-            font-size: 0.85rem;
-            font-weight: 700;
-        }
-
-        .rodada-item small {
-            color: #666;
-            font-size: 0.75rem;
-        }
-
+        .rodada-item span { font-size: 0.85rem; font-weight: 700; }
+        .rodada-item small { color: #666; font-size: 0.75rem; }
         .btn-del {
-            background: transparent;
-            border: 1px solid #e74c3c;
-            border-radius: 6px;
-            color: #e74c3c;
-            padding: 4px 10px;
-            font-size: 0.75rem;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            letter-spacing: 1px;
+            background: transparent; border: 1px solid #e74c3c; border-radius: 6px;
+            color: #e74c3c; padding: 4px 10px; font-size: 0.75rem;
+            font-family: 'Montserrat', sans-serif; font-weight: 700; cursor: pointer; letter-spacing: 1px;
         }
-
         .btn-del:hover { background: #e74c3c; color: #fff; }
 
-        .loading-text {
-            color: #555;
-            font-size: 0.85rem;
-            text-align: center;
-            padding: 16px;
-        }
+        .loading-text { color: #555; font-size: 0.85rem; text-align: center; padding: 16px; }
 
-        .contador {
-            font-size: 0.75rem;
-            color: #666;
-            text-align: right;
-            margin-bottom: 8px;
+        .toast {
+            position: fixed; bottom: 24px; left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: #2ecc71; color: #000; font-weight: 700; font-size: 0.85rem;
+            letter-spacing: 1px; padding: 12px 24px; border-radius: 8px;
+            transition: transform 0.3s ease; z-index: 999;
         }
+        .toast.erro { background: #e74c3c; color: #fff; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        .ranking-salvo-info {
+            background: #111; border: 1px solid #333; border-radius: 8px;
+            padding: 16px; text-align: center;
+        }
+        .ranking-salvo-info span { font-size: 0.85rem; color: #aaa; }
+        .ranking-salvo-info strong { color: #f5c518; display: block; font-size: 1.1rem; margin-bottom: 4px; }
     </style>
 </head>
 <body>
@@ -304,46 +174,93 @@
 
 <div class="container">
 
-    <!-- CADASTRAR NOVA RODADA -->
-    <div class="card">
-        <h2>📅 Nova Rodada</h2>
-
-        <div class="field">
-            <label>Data da Rodada</label>
-            <input type="text" id="data-rodada" placeholder="DD/MM/AAAA" maxlength="10">
-        </div>
-
-        <div class="cols-label">
-            <span>Time 1</span>
-            <span>Placar</span>
-            <span>Time 2</span>
-        </div>
-
-        <div id="lista-jogos"></div>
-
-        <button class="btn-add-jogo" onclick="adicionarJogo()">+ Adicionar Jogo</button>
-
-        <div class="contador" id="contador">0 jogos</div>
-
-        <button class="btn-salvar" id="btn-salvar" onclick="salvarRodada()">💾 Salvar Rodada</button>
+    <div class="tabs">
+        <button class="tab ativo" onclick="trocarAba('jogos', this)">⚽ Jogos</button>
+        <button class="tab" onclick="trocarAba('ranking', this)">🏆 Ranking</button>
     </div>
 
-    <!-- RODADAS SALVAS -->
-    <div class="card">
-        <h2>📋 Rodadas Salvas</h2>
-        <div id="rodadas-lista" class="rodadas-lista">
-            <p class="loading-text">Carregando...</p>
+    <!-- ABA JOGOS -->
+    <div id="aba-jogos" class="aba ativa">
+
+        <div class="card">
+            <h2>📅 Nova Rodada</h2>
+            <div class="field">
+                <label>Data da Rodada</label>
+                <input type="text" id="data-rodada" placeholder="DD/MM/AAAA" maxlength="10">
+            </div>
+            <div class="cols-label">
+                <span>Time 1</span><span>Placar</span><span>Time 2</span>
+            </div>
+            <div id="lista-jogos"></div>
+            <button class="btn-add-jogo" onclick="adicionarJogo()">+ Adicionar Jogo</button>
+            <div class="contador" id="contador">0 jogos</div>
+            <button class="btn-salvar" id="btn-salvar-jogo" onclick="salvarRodada()">💾 Salvar Rodada</button>
         </div>
+
+        <div class="card">
+            <h2>📋 Rodadas Salvas</h2>
+            <div id="rodadas-lista" class="rodadas-lista">
+                <p class="loading-text">Carregando...</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ABA RANKING -->
+    <div id="aba-ranking" class="aba">
+
+        <div class="card">
+            <h2>🏆 Atualizar Ranking</h2>
+
+            <div class="field">
+                <label>Mês de referência (mensal)</label>
+                <select id="mes-ranking">
+                    <option value="Janeiro">Janeiro</option>
+                    <option value="Fevereiro">Fevereiro</option>
+                    <option value="Março">Março</option>
+                    <option value="Abril">Abril</option>
+                    <option value="Maio" selected>Maio</option>
+                    <option value="Junho">Junho</option>
+                    <option value="Julho">Julho</option>
+                    <option value="Agosto">Agosto</option>
+                    <option value="Setembro">Setembro</option>
+                    <option value="Outubro">Outubro</option>
+                    <option value="Novembro">Novembro</option>
+                    <option value="Dezembro">Dezembro</option>
+                </select>
+            </div>
+
+            <div class="cols-label-ranking">
+                <span>Atleta</span>
+                <span>Total</span>
+                <span>Mês</span>
+                <span>Troféus</span>
+                <span>Meses Campeão</span>
+            </div>
+
+            <div id="lista-atletas"></div>
+
+            <button class="btn-add-jogo" onclick="adicionarAtleta()" style="margin-top:4px">+ Adicionar Atleta</button>
+
+            <button class="btn-salvar" id="btn-salvar-ranking" onclick="salvarRanking()">💾 Salvar Ranking</button>
+        </div>
+
+        <div class="card">
+            <h2>📋 Ranking Atual no Firebase</h2>
+            <div id="ranking-salvo" class="ranking-salvo-info">
+                <p class="loading-text">Carregando...</p>
+            </div>
+        </div>
+
     </div>
 
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- Firebase -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, orderBy, query, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyiMxWmU6ez1i_wdXNJ3egDziaR-A",
@@ -357,7 +274,16 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // ---- UI ----
+    // ---- TABS ----
+    window.trocarAba = function(aba, btn) {
+        document.querySelectorAll('.aba').forEach(a => a.classList.remove('ativa'));
+        document.querySelectorAll('.tab').forEach(b => b.classList.remove('ativo'));
+        document.getElementById('aba-' + aba).classList.add('ativa');
+        btn.classList.add('ativo');
+    }
+
+    // ==================== JOGOS ====================
+
     let jogosCount = 0;
 
     window.adicionarJogo = function() {
@@ -387,7 +313,6 @@
         document.getElementById('contador').textContent = n + (n === 1 ? ' jogo' : ' jogos');
     }
 
-    // Formatar data automaticamente
     document.getElementById('data-rodada').addEventListener('input', function(e) {
         let v = e.target.value.replace(/\D/g, '');
         if (v.length >= 3) v = v.slice(0,2) + '/' + v.slice(2);
@@ -395,14 +320,11 @@
         e.target.value = v;
     });
 
-    // ---- SALVAR ----
     window.salvarRodada = async function() {
         const data = document.getElementById('data-rodada').value.trim();
         if (!data || data.length < 10) { showToast('Informe a data no formato DD/MM/AAAA', true); return; }
-
         const rows = document.querySelectorAll('.jogo-row');
         if (rows.length === 0) { showToast('Adicione pelo menos um jogo', true); return; }
-
         const jogos = [];
         let ok = true;
         rows.forEach(row => {
@@ -412,71 +334,142 @@
             if (!t1 || !p || !t2) { ok = false; return; }
             jogos.push({ t1, p, t2 });
         });
-
         if (!ok) { showToast('Preencha todos os campos dos jogos', true); return; }
-
-        const btn = document.getElementById('btn-salvar');
-        btn.disabled = true;
-        btn.textContent = 'Salvando...';
-
+        const btn = document.getElementById('btn-salvar-jogo');
+        btn.disabled = true; btn.textContent = 'Salvando...';
         try {
-            await addDoc(collection(db, 'rodadas'), {
-                data,
-                jogos,
-                criadoEm: new Date().toISOString()
-            });
-            showToast('Rodada salva com sucesso! ✓');
+            await addDoc(collection(db, 'rodadas'), { data, jogos, criadoEm: new Date().toISOString() });
+            showToast('Rodada salva! ✓');
             document.getElementById('data-rodada').value = '';
             document.getElementById('lista-jogos').innerHTML = '';
             atualizarContador();
             carregarRodadas();
-        } catch (e) {
-            showToast('Erro ao salvar: ' + e.message, true);
+        } catch(e) {
+            showToast('Erro: ' + e.message, true);
         } finally {
-            btn.disabled = false;
-            btn.textContent = '💾 Salvar Rodada';
+            btn.disabled = false; btn.textContent = '💾 Salvar Rodada';
         }
     }
 
-    // ---- CARREGAR ----
     async function carregarRodadas() {
         const container = document.getElementById('rodadas-lista');
         container.innerHTML = '<p class="loading-text">Carregando...</p>';
-
         try {
             const q = query(collection(db, 'rodadas'), orderBy('data', 'desc'));
             const snap = await getDocs(q);
-
-            if (snap.empty) {
-                container.innerHTML = '<p class="loading-text">Nenhuma rodada cadastrada ainda.</p>';
-                return;
-            }
-
+            if (snap.empty) { container.innerHTML = '<p class="loading-text">Nenhuma rodada cadastrada.</p>'; return; }
             container.innerHTML = '';
             snap.forEach(docSnap => {
                 const d = docSnap.data();
                 const div = document.createElement('div');
                 div.className = 'rodada-item';
                 div.innerHTML = `
-                    <div>
-                        <span>${d.data}</span><br>
-                        <small>${d.jogos.length} jogos</small>
-                    </div>
+                    <div><span>${d.data}</span><br><small>${d.jogos.length} jogos</small></div>
                     <button class="btn-del" onclick="deletarRodada('${docSnap.id}')">Excluir</button>
                 `;
                 container.appendChild(div);
             });
+        } catch(e) { container.innerHTML = '<p class="loading-text">Erro ao carregar.</p>'; }
+    }
+
+    window.deletarRodada = async function(id) {
+        if (!confirm('Excluir esta rodada?')) return;
+        await deleteDoc(doc(db, 'rodadas', id));
+        showToast('Rodada excluída');
+        carregarRodadas();
+    }
+
+    // ==================== RANKING ====================
+
+    let atletasCount = 0;
+
+    window.adicionarAtleta = function(dados = {}) {
+        atletasCount++;
+        const id = 'atleta-' + atletasCount;
+        const div = document.createElement('div');
+        div.className = 'atleta-row';
+        div.id = id;
+        div.style.position = 'relative';
+        div.innerHTML = `
+            <input type="text" placeholder="Nome" class="nome" value="${dados.nome || ''}">
+            <input type="number" placeholder="0" class="total" value="${dados.total ?? ''}" min="0">
+            <input type="number" placeholder="0" class="mes" value="${dados.mes ?? ''}" min="0">
+            <input type="number" placeholder="0" class="trofeus" value="${dados.trofeus ?? ''}" min="0">
+            <input type="text" placeholder="Ex: Março, Abril" class="mesesCampeao" value="${(dados.mesesCampeao || []).join(', ')}">
+            <button class="btn-remove" onclick="removerAtleta('${id}')">✕</button>
+        `;
+        document.getElementById('lista-atletas').appendChild(div);
+        if (!dados.nome) div.querySelector('.nome').focus();
+    }
+
+    window.removerAtleta = function(id) {
+        document.getElementById(id)?.remove();
+    }
+
+    window.salvarRanking = async function() {
+        const mesRanking = document.getElementById('mes-ranking').value;
+        const rows = document.querySelectorAll('.atleta-row');
+        if (rows.length === 0) { showToast('Adicione pelo menos um atleta', true); return; }
+        const atletas = [];
+        let ok = true;
+        rows.forEach(row => {
+            const nome = row.querySelector('.nome').value.trim();
+            const total = parseInt(row.querySelector('.total').value) || 0;
+            const mes = parseInt(row.querySelector('.mes').value) || 0;
+            const trofeus = parseInt(row.querySelector('.trofeus').value) || 0;
+            const mesesRaw = row.querySelector('.mesesCampeao').value.trim();
+            const mesesCampeao = mesesRaw ? mesesRaw.split(',').map(m => m.trim()).filter(Boolean) : [];
+            if (!nome) { ok = false; return; }
+            atletas.push({ nome, total, mes, trofeus, mesesCampeao });
+        });
+        if (!ok) { showToast('Preencha o nome de todos os atletas', true); return; }
+        const btn = document.getElementById('btn-salvar-ranking');
+        btn.disabled = true; btn.textContent = 'Salvando...';
+        try {
+            await setDoc(doc(db, 'config', 'ranking'), {
+                atletas,
+                mesAtual: mesRanking,
+                atualizadoEm: new Date().toISOString()
+            });
+            showToast('Ranking salvo! ✓');
+            carregarRankingSalvo();
+        } catch(e) {
+            showToast('Erro: ' + e.message, true);
+        } finally {
+            btn.disabled = false; btn.textContent = '💾 Salvar Ranking';
+        }
+    }
+
+    async function carregarRankingSalvo() {
+        const container = document.getElementById('ranking-salvo');
+        try {
+            const snap = await getDoc(doc(db, 'config', 'ranking'));
+            if (!snap.exists()) {
+                container.innerHTML = '<p class="loading-text">Nenhum ranking salvo ainda.</p>';
+                // Pré-preencher com dados locais se existirem
+                preencherComDadosLocais();
+                return;
+            }
+            const d = snap.data();
+            container.innerHTML = `
+                <strong>${d.atletas.length} atletas</strong>
+                <span>Mês atual: ${d.mesAtual} · Atualizado em ${new Date(d.atualizadoEm).toLocaleDateString('pt-BR')}</span>
+            `;
+            // Preencher formulário com dados atuais
+            document.getElementById('lista-atletas').innerHTML = '';
+            atletasCount = 0;
+            document.getElementById('mes-ranking').value = d.mesAtual;
+            d.atletas.forEach(a => adicionarAtleta(a));
         } catch(e) {
             container.innerHTML = '<p class="loading-text">Erro ao carregar.</p>';
         }
     }
 
-    // ---- DELETAR ----
-    window.deletarRodada = async function(id) {
-        if (!confirm('Tem certeza que quer excluir esta rodada?')) return;
-        await deleteDoc(doc(db, 'rodadas', id));
-        showToast('Rodada excluída');
-        carregarRodadas();
+    function preencherComDadosLocais() {
+        if (typeof bancoDeDadosRanking === 'undefined') return;
+        document.getElementById('lista-atletas').innerHTML = '';
+        atletasCount = 0;
+        bancoDeDadosRanking.forEach(a => adicionarAtleta(a));
     }
 
     // ---- TOAST ----
@@ -488,11 +481,14 @@
         setTimeout(() => t.classList.remove('show'), 3000);
     }
 
-    // Adicionar primeiro jogo e carregar rodadas
+    // Init
     window.adicionarJogo();
     carregarRodadas();
+    carregarRankingSalvo();
 </script>
+
+<!-- Dados locais como fallback para pré-preencher ranking -->
+<script src="dados_ranking.js"></script>
 
 </body>
 </html>
-
