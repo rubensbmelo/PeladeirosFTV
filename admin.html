@@ -204,6 +204,25 @@
             </div>
         </div>
 
+        <div class="card" id="card-vitorias" style="display:none;">
+            <h2>🏅 Vitórias por Jogador</h2>
+            <p style="font-size:0.75rem; color:#666; margin-bottom:16px; letter-spacing:0.5px;">Calculado a partir de todas as rodadas salvas no Firebase.</p>
+            <div style="overflow-x:auto;">
+                <table class="tabela-vitorias-admin" style="width:100%; border-collapse:collapse;">
+                    <thead>
+                        <tr style="border-bottom:1px solid #333;">
+                            <th style="padding:8px 4px; font-size:0.7rem; letter-spacing:1px; color:#aaa; text-transform:uppercase; text-align:center;">Pos</th>
+                            <th style="padding:8px 12px; font-size:0.7rem; letter-spacing:1px; color:#aaa; text-transform:uppercase; text-align:left;">Jogador</th>
+                            <th style="padding:8px 4px; font-size:0.7rem; letter-spacing:1px; color:#f5c518; text-transform:uppercase; text-align:center;">Vitórias</th>
+                            <th style="padding:8px 4px; font-size:0.7rem; letter-spacing:1px; color:#aaa; text-transform:uppercase; text-align:center;">Jogos</th>
+                            <th style="padding:8px 4px; font-size:0.7rem; letter-spacing:1px; color:#aaa; text-transform:uppercase; text-align:center;">%</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-vitorias-body"></tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
     <!-- ABA RANKING -->
@@ -359,8 +378,10 @@
             const snap = await getDocs(q);
             if (snap.empty) { container.innerHTML = '<p class="loading-text">Nenhuma rodada cadastrada.</p>'; return; }
             container.innerHTML = '';
+            const todasRodadas = [];
             snap.forEach(docSnap => {
                 const d = docSnap.data();
+                todasRodadas.push(d);
                 const div = document.createElement('div');
                 div.className = 'rodada-item';
                 div.innerHTML = `
@@ -369,7 +390,56 @@
                 `;
                 container.appendChild(div);
             });
+            calcularVitorias(todasRodadas);
         } catch(e) { container.innerHTML = '<p class="loading-text">Erro ao carregar.</p>'; }
+    }
+
+    function calcularVitorias(rodadas) {
+        const vitorias = {};
+        const jogados = {};
+
+        rodadas.forEach(rodada => {
+            rodada.jogos.forEach(jogo => {
+                const partes = jogo.p.split('x').map(s => parseInt(s.trim()));
+                if (partes.length !== 2 || isNaN(partes[0]) || isNaN(partes[1])) return;
+                const [p1, p2] = partes;
+                const jogadoresT1 = jogo.t1.split(/[\/&]/).map(n => n.trim()).filter(Boolean);
+                const jogadoresT2 = jogo.t2.split(/[\/&]/).map(n => n.trim()).filter(Boolean);
+                [...jogadoresT1, ...jogadoresT2].forEach(j => {
+                    jogados[j] = (jogados[j] || 0) + 1;
+                    vitorias[j] = vitorias[j] || 0;
+                });
+                const vencedores = p1 > p2 ? jogadoresT1 : jogadoresT2;
+                vencedores.forEach(j => { vitorias[j]++; });
+            });
+        });
+
+        const lista = Object.keys(vitorias).map(nome => ({
+            nome,
+            vitorias: vitorias[nome],
+            jogos: jogados[nome],
+            pct: Math.round((vitorias[nome] / jogados[nome]) * 100)
+        })).sort((a, b) => b.vitorias - a.vitorias || b.pct - a.pct);
+
+        if (lista.length === 0) return;
+
+        let pos = 1;
+        const corpo = document.getElementById('tabela-vitorias-body');
+        corpo.innerHTML = lista.map((atleta, i) => {
+            if (i > 0 && atleta.vitorias < lista[i-1].vitorias) pos = i + 1;
+            const lider = i === 0;
+            return `
+                <tr style="border-bottom:1px solid #222;">
+                    <td style="padding:10px 4px; text-align:center; font-size:0.85rem;">${pos}º</td>
+                    <td style="padding:10px 12px; font-weight:700; font-size:0.85rem;">${atleta.nome}${lider ? ' 🥇' : ''}</td>
+                    <td style="padding:10px 4px; text-align:center; font-weight:900; font-size:1rem; color:#f5c518;">${atleta.vitorias}</td>
+                    <td style="padding:10px 4px; text-align:center; color:#666; font-size:0.8rem;">${atleta.jogos}</td>
+                    <td style="padding:10px 4px; text-align:center; color:#666; font-size:0.8rem;">${atleta.pct}%</td>
+                </tr>
+            `;
+        }).join('');
+
+        document.getElementById('card-vitorias').style.display = 'block';
     }
 
     window.deletarRodada = async function(id) {
